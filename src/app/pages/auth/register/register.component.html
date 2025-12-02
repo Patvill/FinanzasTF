@@ -1,0 +1,186 @@
+<div class="auth-layout">
+  <!-- LADO IZQUIERDO: IMAGEN / HERO -->
+  <div class="auth-left">
+    <div class="auth-overlay"></div>
+    <div class="auth-text">
+      <h2>Simulador Hipotecario G5</h2>
+      <p>
+        Registra tus datos y empieza a simular tu crédito hipotecario con mayor claridad.
+      </p>
+    </div>
+  </div>
+
+  <!-- LADO DERECHO: TARJETA DE REGISTRO -->
+  <div class="auth-right">
+    <div class="auth-card shadow">
+
+      <h1 class="form-title">Crear cuenta</h1>
+      <p class="form-subtitle">
+        Registra tus datos personales y financieros para empezar a simular tu crédito hipotecario.
+      </p>
+
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="form-register">
+
+        <!-- FILA 1: NOMBRES / APELLIDOS -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-6 col-12">
+            <label class="form-label">Nombres</label>
+            <input
+              class="form-control"
+              name="nombres"
+              [(ngModel)]="modelo.nombres"
+              required
+            />
+          </div>
+          <div class="col-md-6 col-12">
+            <label class="form-label">Apellidos</label>
+            <input
+              class="form-control"
+              name="apellidos"
+              [(ngModel)]="modelo.apellidos"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- CORREO -->
+        <div class="mb-3">
+          <label class="form-label">Correo electrónico</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [(ngModel)]="modelo.email"
+            required
+          />
+        </div>
+
+        <!-- CONTRASEÑA -->
+        <div class="mb-4">
+          <label class="form-label">Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="modelo.password"
+            required
+          />
+        </div>
+
+        <!-- DOCUMENTO / TELÉFONO -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-4 col-12">
+            <label class="form-label">Tipo documento</label>
+            <select
+              class="form-select"
+              name="tipoDocumento"
+              [(ngModel)]="modelo.tipoDocumento"
+              required
+            >
+              <option value="DNI">DNI</option>
+              <option value="CE">CE</option>
+              <option value="Pasaporte">Pasaporte</option>
+            </select>
+          </div>
+          <div class="col-md-4 col-12">
+            <label class="form-label">N° documento</label>
+            <input
+              class="form-control"
+              name="numeroDocumento"
+              [(ngModel)]="modelo.numeroDocumento"
+              required
+            />
+          </div>
+          <div class="col-md-4 col-12">
+            <label class="form-label">Teléfono</label>
+            <input
+              class="form-control"
+              name="telefono"
+              [(ngModel)]="modelo.telefono"
+            />
+          </div>
+        </div>
+
+        <!-- INGRESO / SITUACION / EDAD / ESTADO CIVIL -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4 col-12">
+            <label class="form-label">Ingreso mensual (S/.)</label>
+            <input
+              type="number"
+              class="form-control"
+              name="ingresoMensual"
+              [(ngModel)]="modelo.ingresoMensual"
+              required
+              min="0"
+            />
+          </div>
+          <div class="col-md-4 col-12">
+            <label class="form-label">Situación laboral</label>
+            <input
+              class="form-control"
+              name="situacionLaboral"
+              [(ngModel)]="modelo.situacionLaboral"
+              placeholder="Dependiente, independiente..."
+            />
+          </div>
+          <div class="col-md-2 col-6">
+            <label class="form-label">Edad</label>
+            <input
+              type="number"
+              class="form-control"
+              name="edad"
+              [(ngModel)]="modelo.edad"
+              required
+              min="18"
+            />
+          </div>
+          <div class="col-md-2 col-6">
+            <label class="form-label">Estado civil</label>
+            <select
+              class="form-select"
+              name="estadoCivil"
+              [(ngModel)]="modelo.estadoCivil"
+              required
+            >
+              <option>Soltero</option>
+              <option>Casado</option>
+              <option>Divorciado</option>
+              <option>Viudo</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- MENSAJES -->
+        <div *ngIf="error" class="alert alert-danger text-center mb-3">
+          {{ error }}
+        </div>
+        <div *ngIf="mensajeOk" class="alert alert-success text-center mb-3">
+          {{ mensajeOk }}
+        </div>
+
+        <!-- BOTÓN REGISTRAR -->
+        <button
+          class="btn submit-btn"
+          type="submit"
+          [disabled]="cargando || f.invalid"
+        >
+          {{ cargando ? 'Registrando...' : 'Crear cuenta' }}
+        </button>
+
+        <!-- VOLVER A LOGIN -->
+        <div class="back-login-wrapper">
+          <small class="text-muted">¿Ya tienes cuenta?</small><br />
+          <button
+            type="button"
+            class="btn btn-link back-login-btn"
+            (click)="volverLogin()"
+          >
+            Volver al inicio de sesión
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

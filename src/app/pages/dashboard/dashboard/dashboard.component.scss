@@ -1,0 +1,256 @@
+/* ============================
+   CONTENEDOR GENERAL
+============================ */
+
+body {
+  
+  color: #111827;
+}
+
+.dashboard-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111827;
+  background: #38311449;
+}
+
+/* Títulos principales */
+h2 {
+  margin: 24px 0 16px 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Títulos secundarios */
+h3 {
+  margin: 24px 0 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Línea separadora */
+hr {
+  border: none;
+  border-top: 1px solid #000000;
+  margin: 28px 0;
+}
+
+/* ============================
+   LAYOUT
+============================ */
+
+/* Tarjeta genérica (formularios, resultados, etc.) */
+form,
+.resultado,
+.lista-propiedades {
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+  padding: 20px 18px;
+  margin-bottom: 24px;
+}
+
+/* ============================
+   CAMPOS DE FORMULARIO
+============================ */
+.campo {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+/* Inputs, selects, textareas */
+input,
+select,
+textarea {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  background: #3831142f;
+  transition: all 0.15s ease-in-out;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #eb9f25;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+}
+
+/* Textarea */
+textarea {
+  resize: vertical;
+}
+
+/* Botón principal */
+button {
+  margin-top: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: all 0.15s ease-in-out;
+}
+
+button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(37, 99, 235, 0.35);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ============================
+   MENSAJES
+============================ */
+.ok {
+  margin-top: 10px;
+  color: #16a34a;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.error {
+  margin-top: 10px;
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ============================
+   LISTA DE PROPIEDADES
+============================ */
+.lista-propiedades h3 {
+  margin-top: 0;
+}
+
+.lista-propiedades ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-propiedades li {
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.lista-propiedades li:last-child {
+  border-bottom: none;
+}
+
+.lista-propiedades strong {
+  font-size: 15px;
+  color: #111827;
+}
+
+/* ============================
+   RESULTADOS
+============================ */
+.resultado h3 {
+  margin-top: 0;
+}
+
+/* Grid de resumen de indicadores */
+.resumen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.resumen-grid div {
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 10px 12px;
+}
+
+.resumen-grid strong {
+  font-size: 13px;
+  color: #4b5563;
+}
+
+.resumen-grid p {
+  margin: 4px 0 0 0;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* ============================
+   TABLA DE CUOTAS
+============================ */
+.tabla-cuotas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+.tabla-cuotas thead {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.tabla-cuotas th,
+.tabla-cuotas td {
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.tabla-cuotas th {
+  font-weight: 600;
+}
+
+.tabla-cuotas tbody tr:nth-child(even) {
+  background: #f3f4f6;
+}
+
+.tabla-cuotas tbody tr:hover {
+  background: #e0e7ff;
+}
+
+/* ============================
+   RESPONSIVE
+============================ */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 20px 12px;
+  }
+
+  form,
+  .resultado,
+  .lista-propiedades {
+    padding: 16px 14px;
+  }
+
+  button {
+    width: 100%;
+    text-align: center;
+  }
+}

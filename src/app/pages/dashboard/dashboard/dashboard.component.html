@@ -1,0 +1,266 @@
+<div class="dashboard-container">
+
+  <!-- ========================================================= -->
+  <!-- ===============  REGISTRO DE PROPIEDADES  =============== -->
+  <!-- ========================================================= -->
+
+  <h2>Registrar Propiedad</h2>
+
+  <form #propForm="ngForm" (ngSubmit)="guardarPropiedad(propForm)" class="prop-form">
+
+    <div class="campo">
+      <label>Dirección</label>
+      <input
+        type="text"
+        name="direccion"
+        [(ngModel)]="propiedadModelo.direccion"
+        required
+      />
+    </div>
+
+    <div class="campo">
+      <label>Tipo de vivienda</label>
+      <select name="tipo" [(ngModel)]="propiedadModelo.tipo" required>
+        <option value="Departamento">Departamento</option>
+        <option value="Casa">Casa</option>
+        <option value="Terreno">Terreno</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label>Valor estimado (S/)</label>
+      <input
+        type="number"
+        name="valor"
+        min="0"
+        [(ngModel)]="propiedadModelo.valor"
+        required
+      />
+    </div>
+
+    <div class="campo">
+      <label>Descripción</label>
+      <textarea
+        name="descripcion"
+        [(ngModel)]="propiedadModelo.descripcion"
+        rows="2"
+      ></textarea>
+    </div>
+
+    <button type="submit" [disabled]="cargandoGuardar">Registrar Vivienda</button>
+
+    <p class="ok" *ngIf="mensajeOkPropiedad">{{ mensajeOkPropiedad }}</p>
+    <p class="error" *ngIf="errorPropiedad">{{ errorPropiedad }}</p>
+
+  </form>
+
+  <!-- LISTA DE PROPIEDADES REGISTRADAS -->
+  <div class="lista-propiedades" *ngIf="propiedades.length > 0">
+    <h3>Mis viviendas registradas</h3>
+
+    <ul>
+      <li *ngFor="let p of propiedades">
+        <strong>{{ p.direccion }}</strong>
+        <br />
+        Tipo: {{ p.tipo }}  
+        <br />
+        Precio estimado: S/ {{ p.valor | number: '1.0-2' }}
+        <br />
+        <em>{{ p.descripcion }}</em>
+      </li>
+    </ul>
+  </div>
+
+  <hr />
+
+  <!-- ========================================================= -->
+  <!-- ======================= SIMULACIÓN ======================= -->
+  <!-- ========================================================= -->
+
+  <h2>Simulación de Crédito Hipotecario</h2>
+
+  <form #simForm="ngForm" (ngSubmit)="crearSimulacion(simForm)" class="sim-form">
+
+    <!-- PROPIEDAD -->
+    <div class="campo">
+      <label>Propiedad</label>
+      <select name="propiedadId" [(ngModel)]="simulacionModelo.propiedadId" required>
+        <option value="">Seleccione una propiedad</option>
+        <option *ngFor="let p of propiedades" [value]="p.id">
+          {{ p.direccion }} (S/ {{ p.valor | number: '1.0-2' }})
+        </option>
+      </select>
+    </div>
+
+    <!-- PRODUCTO -->
+    <div class="campo">
+      <label>Producto Crédito</label>
+      <select name="productoId" [(ngModel)]="simulacionModelo.productoId" required>
+        <option value="">Seleccione un producto</option>
+        <option *ngFor="let prod of productos" [value]="prod.id">
+          {{ prod.nombre }} - Plazo: {{ prod.plazoMeses }} meses
+        </option>
+      </select>
+    </div>
+
+    <!-- BANCO -->
+    <div class="campo">
+      <label>Banco</label>
+      <select name="bancoId" [(ngModel)]="simulacionModelo.bancoId" required>
+        <option value="">Seleccione un banco</option>
+        <option *ngFor="let b of bancos" [value]="b.id">
+          {{ b.nombre }} - TCEA: {{ b.tea }}%
+        </option>
+      </select>
+    </div>
+
+    <!-- MONTO SOLICITADO -->
+    <div class="campo">
+      <label>Monto solicitado (S/)</label>
+      <input
+        type="number"
+        name="montoSolicitado"
+        [(ngModel)]="simulacionModelo.montoSolicitado"
+        min="0"
+        required
+      />
+    </div>
+
+    <!-- PERIODOS DE GRACIA -->
+    <div class="campo">
+      <label>Periodo de gracia (meses)</label>
+      <input
+        type="number"
+        name="periodoGracia"
+        [(ngModel)]="simulacionModelo.periodoGracia"
+        min="0"
+      />
+    </div>
+
+    <!-- ======================= CONFIGURACIÓN DE TASA ======================= -->
+    <h3>Configuración de tasa (opcional)</h3>
+
+    <div class="campo">
+      <label>Moneda</label>
+      <select name="moneda" [(ngModel)]="simulacionModelo.moneda">
+        <option value="PEN">Soles (PEN)</option>
+        <option value="USD">Dólares (USD)</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label>Tipo de tasa</label>
+      <select name="tipoTasa" [(ngModel)]="simulacionModelo.tipoTasa">
+        <option value="EFECTIVA">Efectiva (TEA)</option>
+        <option value="NOMINAL">Nominal (TNA)</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label>Tasa anual (%)</label>
+      <input
+        type="number"
+        step="0.0001"
+        name="tasaAnual"
+        [(ngModel)]="simulacionModelo.tasaAnual"
+      />
+    </div>
+
+    <div class="campo" *ngIf="simulacionModelo.tipoTasa === 'NOMINAL'">
+      <label>Capitalización por año</label>
+      <input
+        type="number"
+        name="capitalizacionPorAnio"
+        [(ngModel)]="simulacionModelo.capitalizacionPorAnio"
+        min="1"
+      />
+    </div>
+
+    <button type="submit" [disabled]="cargandoSimulacion">Simular</button>
+
+    <p class="error" *ngIf="errorSimulacion">{{ errorSimulacion }}</p>
+
+  </form>
+
+  <!-- ========================================================= -->
+  <!-- ======================= RESULTADOS ======================= -->
+  <!-- ========================================================= -->
+
+  <div *ngIf="simulacionResumen" class="resultado">
+
+    <h3>Resultado de la Simulación</h3>
+
+    <div class="resumen-grid">
+
+      <div>
+        <strong>Monto solicitado:</strong>
+        <p>{{ simulacionResumen.montoSolicitado | currency: simulacionResumen.moneda }}</p>
+      </div>
+
+      <div>
+        <strong>Cuota mensual:</strong>
+        <p>{{ simulacionResumen.cuotaMensual | currency: simulacionResumen.moneda }}</p>
+      </div>
+
+      <div>
+        <strong>Tasa mensual equivalente:</strong>
+        <p>{{ simulacionResumen.tasaMensual | percent: '1.2-2' }}</p>
+      </div>
+
+      <div>
+        <strong>TCEA:</strong>
+        <p>{{ simulacionResumen.tcea }}%</p>
+      </div>
+
+      <div>
+        <strong>Tipo de tasa aplicada:</strong>
+        <p>{{ simulacionResumen.tipoTasa }}</p>
+      </div>
+
+      <div>
+        <strong>Tasa anual usada:</strong>
+        <p>{{ simulacionResumen.tasaAnual }}%</p>
+      </div>
+
+      <div>
+        <strong>VAN:</strong>
+        <p>{{ simulacionResumen.van | currency: simulacionResumen.moneda }}</p>
+      </div>
+
+      <div>
+        <strong>TIR anual:</strong>
+        <p>{{ simulacionResumen.tir | percent: '1.1-2' }}</p>
+      </div>
+
+    </div>
+
+    <!-- ======================= TABLA DE CUOTAS ======================= -->
+    <h3>Cronograma de Pagos</h3>
+
+    <table class="tabla-cuotas" *ngIf="cuotas.length > 0">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha</th>
+          <th>Interés</th>
+          <th>Capital</th>
+          <th>Cuota</th>
+          <th>Saldo</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let c of cuotas">
+          <td>{{ c.numeroCuota }}</td>
+          <td>{{ c.fechaVencimiento | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ c.montoInteres | currency: simulacionResumen.moneda }}</td>
+          <td>{{ c.montoCapital | currency: simulacionResumen.moneda }}</td>
+          <td>{{ c.cuotaTotal | currency: simulacionResumen.moneda }}</td>
+          <td>{{ c.saldoRestante | currency: simulacionResumen.moneda }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>

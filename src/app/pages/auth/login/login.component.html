@@ -1,0 +1,80 @@
+<div class="login-layout">
+  <!-- LADO IZQUIERDO: IMAGEN / HERO -->
+  <div class="login-left">
+    <div class="left-overlay"></div>
+    <div class="left-text">
+      <h1>Simulador Hipotecario G5</h1>
+      <p>
+        Calcula y compara tus cuotas hipotecarias de forma rápida y visual.
+      </p>
+    </div>
+  </div>
+
+  <!-- LADO DERECHO: TARJETA DE LOGIN -->
+  <div class="login-right">
+    <div class="login-card shadow">
+
+      <div class="login-header">
+        <h3>Bienvenido</h3>
+        
+      </div>
+
+      <form (ngSubmit)="onLogin()" class="form-login">
+
+        <!-- CORREO -->
+        <div class="form-group mb-3">
+          <label class="form-label fw-semibold">Correo electrónico</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            [(ngModel)]="email"
+            required
+            placeholder="Ingresa tu correo"
+          />
+        </div>
+
+        <!-- CONTRASEÑA -->
+        <div class="form-group mb-3">
+          <label class="form-label fw-semibold">Contraseña</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="Ingresa tu contraseña"
+          />
+        </div>
+
+        <!-- ERROR -->
+        <div *ngIf="error" class="alert alert-danger text-center mb-3">
+          {{ error }}
+        </div>
+
+        <!-- BOTÓN INGRESAR -->
+        <button
+          class="btn submit-btn"
+          type="submit"
+          [disabled]="cargando"
+        >
+          {{ cargando ? 'Ingresando...' : 'Ingresar' }}
+        </button>
+
+        <!-- REGISTRO -->
+        <div class="register-wrapper">
+          <small class="text-muted">¿No tienes cuenta?</small><br />
+          <button
+            type="button"
+            class="btn btn-link register-btn"
+            (click)="irARegistro()"
+          >
+            Regístrate aquí
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
